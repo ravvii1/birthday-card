@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Letter 💌</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* =========================
+         CUSTOMIZE YOUR COLORS
+         ========================= */
+      --background: #fff7f8;
+      --background-accent: #ffe8ed;
+
+      --envelope: #f7b6c2;
+      --envelope-dark: #e99aaa;
+      --envelope-light: #ffd9df;
+
+      --paper: #fffdf8;
+      --text: #49383d;
+      --muted: #8c747b;
+
+      --accent: #d96c82;
+      --accent-dark: #b94d66;
+
+      --shadow: rgba(117, 70, 82, 0.18);
+
+      /* Envelope dimensions */
+      --envelope-width: min(420px, 86vw);
+      --envelope-height: calc(var(--envelope-width) * 0.66);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: "DM Sans", sans-serif;
+      color: var(--text);
+
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,.9) 0 4px, transparent 5px),
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,.8) 0 3px, transparent 4px),
+        radial-gradient(circle at 70% 80%, rgba(255,255,255,.8) 0 4px, transparent 5px),
+        linear-gradient(
+          135deg,
+          var(--background),
+          var(--background-accent)
+        );
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 900px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* =========================
+       INTRODUCTION
+       ========================= */
+
+    .intro {
+      margin-bottom: 45px;
+      transition: opacity .5s ease, transform .5s ease;
+    }
+
+    .intro.hidden {
+      opacity: 0;
+      transform: translateY(-15px);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .intro h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(38px, 6vw, 62px);
+      line-height: 1.05;
+      margin-bottom: 14px;
+    }
+
+    .intro p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* =========================
+       ENVELOPE AREA
+       ========================= */
+
+    .scene {
+      position: relative;
+      height: 480px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      width: var(--envelope-width);
+      height: var(--envelope-height);
+      perspective: 1200px;
+      cursor: pointer;
+      transition: transform .5s ease;
+    }
+
+    .envelope-wrapper:hover {
+      transform: translateY(-7px);
+    }
+
+    .envelope-wrapper.opened {
+      cursor: default;
+    }
+
+    /* =========================
+       ENVELOPE
+       ========================= */
+
+    .envelope {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: var(--envelope);
+      box-shadow:
+        0 25px 55px var(--shadow),
+        0 5px 13px rgba(0,0,0,.05);
+      overflow: visible;
+    }
+
+    /* Letter */
+    .letter {
+      position: absolute;
+      width: 88%;
+      height: 94%;
+      left: 6%;
+      bottom: 5%;
+      z-index: 2;
+
+      background: var(--paper);
+      border-radius: 5px;
+
+      padding: 35px 35px 30px;
+
+      text-align: left;
+
+      box-shadow: 0 8px 25px rgba(70,40,50,.12);
+
+      transform: translateY(5%);
+      transition:
+        transform 1s cubic-bezier(.22, 1, .36, 1),
+        z-index 0s 0.5s;
+
+      overflow: auto;
+    }
+
+    .opened .letter {
+      transform: translateY(-72%);
+      z-index: 5;
+      transition:
+        transform 1s cubic-bezier(.22, 1, .36, 1),
+        z-index 0s;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 1px solid rgba(217,108,130,.15);
+      border-radius: 3px;
+      pointer-events: none;
+    }
+
+    .letter-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .letter-small {
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 10px;
+    }
+
+    .letter h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .letter p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #66545a;
+      margin-bottom: 14px;
+    }
+
+    .signature {
+      margin-top: 25px;
+      font-family: "Playfair Display", serif;
+      font-size: 22px;
+      color: var(--accent-dark);
+    }
+
+    /* =========================
+       ENVELOPE FRONT
+       ========================= */
+
+    .envelope-front {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      overflow: hidden;
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .front-left,
+    .front-right {
+      position: absolute;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-style: solid;
+    }
+
+    .front-left {
+      left: 0;
+      border-width: 0 0 100% 100%;
+      border-color: transparent transparent var(--envelope-light) transparent;
+    }
+
+    .front-right {
+      right: 0;
+      border-width: 100% 0 0 100%;
+      border-color: transparent transparent transparent var(--envelope-dark);
+    }
+
+    .front-bottom {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+
+      width: 0;
+      height: 0;
+
+      border-left: calc(var(--envelope-width) / 2) solid transparent;
+      border-right: calc(var(--envelope-width) / 2) solid transparent;
+      border-bottom: calc(var(--envelope-height) * .62) solid var(--envelope);
+
+      filter: brightness(.98);
+    }
+
+    /* =========================
+       ENVELOPE FLAP
+       ========================= */
+
+    .flap {
+      position: absolute;
+      left: 0;
+      top: 0;
+
+      width: 100%;
+      height: 100%;
+
+      z-index: 6;
+
+      transform-origin: top center;
+
+      transition:
+        transform 1s cubic-bezier(.22, 1, .36, 1),
+        z-index 0s .45s;
+    }
+
+    .flap-shape {
+      position: absolute;
+      inset: 0;
+
+      background: var(--envelope-dark);
+
+      clip-path: polygon(
+        0 0,
+        100% 0,
+        50% 62%
+      );
+
+      filter: brightness(1.02);
+    }
+
+    .opened .flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+      transition:
+        transform 1s cubic-bezier(.22, 1, .36, 1),
+        z-index 0s;
+    }
+
+    /* =========================
+       HEART SEAL
+       ========================= */
+
+    .seal {
+      position: absolute;
+      left: 50%;
+      top: 45%;
+      transform: translate(-50%, -50%);
+      z-index: 8;
+
+      width: 58px;
+      height: 58px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 50%;
+
+      background: #fff;
+      color: var(--accent);
+
+      font-size: 25px;
+
+      box-shadow:
+        0 5px 15px rgba(70,30,40,.14);
+
+      transition:
+        opacity .4s ease,
+        transform .4s ease;
+    }
+
+    .opened .seal {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.5);
+    }
+
+    /* =========================
+       CLICK INSTRUCTION
+       ========================= */
+
+    .instruction {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      color: var(--muted);
+      font-size: 13px;
+
+      transition: opacity .5s ease;
+    }
+
+    .opened ~ .instruction {
+      opacity: 0;
+    }
+
+    /* =========================
+       DECORATIONS
+       ========================= */
+
+    .decor {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .flower {
+      font-size: 32px;
+      opacity: .7;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .flower.one {
+      left: 8%;
+      top: 12%;
+    }
+
+    .flower.two {
+      right: 10%;
+      top: 25%;
+      animation-delay: 6s;
+    }
+
+    .flower.three {
+      left: 16%;
+      bottom: 12%;
+      animation-delay: 2s;
+    }
+
+    .flower.four {
+      right: 15%;
+      bottom: 8%;
+      animation-delay: .5s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(-4deg);
+      }
+
+      50% {
+        transform: translateY(-12px) rotate(4deg);
+      }
+    }
+
+    /* =========================
+       REPLAY BUTTON
+       ========================= */
+
+    .replay {
+      margin-top: 20px;
+
+      border: none;
+      background: transparent;
+
+      color: var(--accent);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+
+      cursor: pointer;
+
+      opacity: 0;
+      pointer-events: none;
+
+      transition: opacity .5s ease;
+    }
+
+    .replay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .replay:hover {
+      text-decoration: underline;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 600px) {
+      .scene {
+        height: 430px;
+      }
+
+      .letter {
+        padding: 25px 24px;
+      }
+
+      .letter h2 {
+        font-size: 25px;
+      }
+
+      .letter p {
+        font-size: 13px;
+      }
+
+      .opened .letter {
+        transform: translateY(-63%);
+      }
+
+      .flower {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+
+    <!-- =========================
+         INTRO
+         ========================= -->
+
+    <section class="intro" id="intro">
+      <div class="eyebrow">For my birthday Girl</div>
+
+      <h1>Happy Birthday, <span id="introName"></span></h1>
+
+    </section>
+
+
+    <!-- =========================
+         ENVELOPE
+         ========================= -->
+
+    <section class="scene">
+
+      <!-- Floating decorations -->
+      <div class="decor flower one">🌸</div>
+      <div class="decor flower two">✦</div>
+      <div class="decor flower three">🌷</div>
+      <div class="decor flower four">♡</div>
+
+      <div
+        class="envelope-wrapper"
+        id="envelope"
+        role="button"
+        tabindex="0"
+        aria-label="Open birthday letter"
+      >
+
+        <div class="envelope">
+
+          <!-- Letter -->
+          <article class="letter">
+
+            <div class="letter-content">
+
+              <div class="letter-small"></div>
+              </div>
+
+              <h2>Dear <span id="letterName">Beautiful</span>,</h2>
+
+              <p id="message1">
+                Today is a special day because it is the day someone wonderful
+                came into this world.
+              </p>
+
+              <p id="message2">
+                I hope your birthday is filled with little moments that make
+                you smile, people who make you feel loved, and memories you'll
+                want to keep forever.
+              </p>
+
+              <p id="message3">
+                May this next chapter bring you closer to the things you dream
+                about and remind you just how special you are.
+              </p>
+
+              <p id="message4">
+                Never forget that you deserve happiness, beautiful moments,
+                and all the good things life has to offer.
+              </p>
+
+              <div class="signature">
+                love,<br>
+                <span id="signature"></span>
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- Envelope flap -->
+          <div class="flap">
+            <div class="flap-shape"></div>
+          </div>
+
+
+          <!-- Envelope front -->
+          <div class="envelope-front">
+            <div class="front-left"></div>
+            <div class="front-right"></div>
+            <div class="front-bottom"></div>
+          </div>
+
+
+          <!-- Heart seal -->
+          <div class="seal">
+            ♥
+          </div>
+
+        </div>
+      </div>
+
+      <div class="instruction">
+        OPEN IT!!!!!!!!!!
+      </div>
+
+    </section>
+
+
+    <button class="replay" id="replay">
+      ↻ Replay
+    </button>
+
+  </main>
+
+
+  <script>
+
+    /* =====================================================
+       CUSTOMIZE YOUR BIRTHDAY CARD HERE
+       ===================================================== */
+
+    const birthday = {
+
+      // Name of the birthday person
+      name: "Princess!",
+
+      // Your message
+      message1:
+        "Happy birthday, princess:) you've lived for 20 years! I am so proud of you for hanging up for this long, pretty girl. 20 years of joy, 20 years of sadness, 20 years of being loved by everyone. You're not a teen anymore! Having you by my side is the best thing that has happened to my life. I never knew that there is still a light that will always make my day brighter. Your company brings out a euphoric feeling that I crave every single day since I first had it; your touch, your voice, your presence fulfills me. I hope your birthday is filled with little moments that make you smile, people who make you feel loved, and memories you'll want to keep forever. ",
+
+      message2:
+        "I want you to always remember that you deserve all the good things that will come to your life. You deserve happiness and love from all the people you care about and cares about you, because you are the gift that everybody wishes for their life to have.",
+
+      message3:
+        "Enjoy your day to the fullest!  Let it be filled with surprises and excitement, you deserve it, baby! Kuya is always gonna be here for all of your birthdays, we will celebrate it together and I pinky promise you that.",
+
+      message4:
+        "My pretty girl, always remember that I am here always with you no matter what happens, you can always count on me for everything and I will always  do it with love and compassion. Have the merriest and happiest birthday today! I love you so so much and that will never change, always remember that. I will move mountains and seas for you, my love, as long as I can I will do anything for you, as long as I am breathing I will love you eternally.",
+
+      // Signature
+      signature:
+        "Hubby (Ravi)"
+
+    };
+
+
+    /* =====================================================
+       APPLY CUSTOM CONTENT
+       ===================================================== */
+
+    document.getElementById("introName").textContent =
+      birthday.name;
+
+    document.getElementById("letterName").textContent =
+      birthday.name;
+
+    document.getElementById("message1").textContent =
+      birthday.message1;
+
+    document.getElementById("message2").textContent =
+      birthday.message2;
+
+    document.getElementById("message3").textContent =
+      birthday.message3;
+
+    document.getElementById("message4").textContent =
+      birthday.message4;
+
+    document.getElementById("signature").textContent =
+      birthday.signature;
+
+
+    /* =====================================================
+       ENVELOPE INTERACTION
+       ===================================================== */
+
+    const envelope =
+      document.getElementById("envelope");
+
+    const replay =
+      document.getElementById("replay");
+
+    const intro =
+      document.getElementById("intro");
+
+
+    function openEnvelope() {
+
+      if (envelope.classList.contains("opened")) {
+        return;
+      }
+
+      envelope.classList.add("opened");
+
+      setTimeout(() => {
+        replay.classList.add("visible");
+      }, 900);
+    }
+
+
+    function closeEnvelope() {
+
+      envelope.classList.remove("opened");
+
+      replay.classList.remove("visible");
+
+      setTimeout(() => {
+        intro.classList.remove("hidden");
+      }, 300);
+    }
+
+
+    envelope.addEventListener("click", openEnvelope);
+
+    envelope.addEventListener("keydown", (event) => {
+
+      if (
+        event.key === "Enter" ||
+        event.key === " "
+      ) {
+        event.preventDefault();
+        openEnvelope();
+      }
+
+    });
+
+
+    replay.addEventListener("click", closeEnvelope);
+
+  </script>
+
+</body>
